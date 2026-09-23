@@ -2,12 +2,12 @@ const getAllTodos = (req, res) => {
     const todos = [
         {
             id: 1,
-            title: "Learn Node.js",
+            task: "Learn Node.js",
             completed: false
         },
         {
             id: 2,
-            title: "Learn Express",
+            task: "Learn Express",
             completed: false
         }
     ];

@@ -1,45 +1,42 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import TodoItem from "./TodoItem";
 
-function TodoList({ tasks, setTasks }) {
-  const [editingIndex, setEditingIndex] = useState(null);
-  const [editText, setEditText] = useState("");
+function TodoList() {
+  const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  function startEdit(index, currentText) {
-    setEditingIndex(index);
-    setEditText(currentText);
-  }
-
-  function handleSave(indexToUpdate) {
-    if (editText.trim() === "") {
-      return;
+  // PLACE YOUR BACKEND FETCHING HERE
+  useEffect(() => {
+    async function fetchTasks() {
+      try {
+        const response = await fetch("http://localhost:3000/todos/");
+        const data = await response.json();
+        console.log("Fetched tasks:", data);
+        setTasks(data);
+        // setTasks(["Buy groceries", "Walk the dog", "Read a book"]); // Mock data
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      } finally {
+        setLoading(false);
+      }
     }
+    fetchTasks();
+  }, []);
 
-    setTasks((previousTasks) =>
-      previousTasks.map((task, index) =>
-        index === indexToUpdate ? editText : task
-      )
+  function handleSave(index, newTask) {
+    setTasks((prev) =>
+      prev.map((task, i) => (i === index ? { ...task, task: newTask } : task))
     );
-
-    setEditingIndex(null);
-    setEditText("");
   }
 
   function handleDelete(indexToDelete) {
-    setTasks((previousTasks) =>
-      previousTasks.filter(
-        (_, index) => index !== indexToDelete
-      )
-    );
-
-    if (editingIndex === indexToDelete) {
-      setEditingIndex(null);
-      setEditText("");
-    }
+    setTasks((prev) => prev.filter((_, index) => index !== indexToDelete));
   }
+
+  if (loading) return <div className="loading">Loading tasks...</div>;
 
   return (
     <div className="task-container">
-
       <div className="task-header">
         <span>#</span>
         <span>Task</span>
@@ -54,83 +51,16 @@ function TodoList({ tasks, setTasks }) {
         </div>
       ) : (
         tasks.map((task, index) => (
-          <div className="task-row" key={`${task}-${index}`}>
-
-            <div className="task-number">
-              {String(index + 1).padStart(2, "0")}
-            </div>
-
-            <div className="task-name">
-              {editingIndex === index ? (
-                <input
-                  className="edit-input"
-                  type="text"
-                  value={editText}
-                  onChange={(event) =>
-                    setEditText(event.target.value)
-                  }
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter") {
-                      handleSave(index);
-                    }
-                  }}
-                  autoFocus
-                />
-              ) : (
-                <span>{task}</span>
-              )}
-            </div>
-
-            <div className="task-status">
-              <span className="status-badge">
-                Pending
-              </span>
-            </div>
-
-            <div className="task-actions">
-
-              {editingIndex === index ? (
-                <>
-                  <button
-                    className="save-button"
-                    onClick={() => handleSave(index)}
-                  >
-                    Save
-                  </button>
-
-                  <button
-                    className="cancel-button"
-                    onClick={() => {
-                      setEditingIndex(null);
-                      setEditText("");
-                    }}
-                  >
-                    Cancel
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    className="edit-button"
-                    onClick={() => startEdit(index, task)}
-                  >
-                    Edit
-                  </button>
-
-                  <button
-                    className="delete-button"
-                    onClick={() => handleDelete(index)}
-                  >
-                    Delete
-                  </button>
-                </>
-              )}
-
-            </div>
-          </div>
+          console.log("Rendering task:", task.task), 
+          <TodoItem
+            key={task.id} 
+            task={task.task}
+            index={index}
+            handleSave={handleSave}
+            handleDelete={handleDelete}
+          />
         ))
       )}
-
     </div>
   );
 }

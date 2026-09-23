@@ -6,19 +6,16 @@ import TodoList from "./components/TodoList";
 
 function App() {
   // const [tasks, setTasks] = useState([]);
-  const [tasks, setTasks] = useState(["Play", "Buy groceries", "Sleep"]);
+  // const [tasks, setTasks] = useState(["Play", "Buy groceries", "Sleep"]);
 
   return (
     <div className="app">
       <Header />
 
       <main className="dashboard">
-        <TodoForm setTasks={setTasks} />
+        <TodoForm/>
 
-        <TodoList
-          tasks={tasks}
-          setTasks={setTasks}
-        />
+        <TodoList/>
       </main>
     </div>
   );
