@@ -1,0 +1,321 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f5f7fb;
+  color: #1f2937;
+}
+
+/* -------------------- */
+/* APP */
+/* -------------------- */
+
+.app {
+  min-height: 100vh;
+}
+
+/* -------------------- */
+/* HEADER */
+/* -------------------- */
+
+.header {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 30px 60px;
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 30px;
+  margin-bottom: 6px;
+  color: #111827;
+}
+
+.header p {
+  color: #6b7280;
+  font-size: 15px;
+}
+
+/* -------------------- */
+/* DASHBOARD */
+/* -------------------- */
+
+.dashboard {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 25px;
+}
+
+/* -------------------- */
+/* TODO FORM */
+/* -------------------- */
+
+.todo-form {
+  background: #ffffff;
+  padding: 22px;
+  border-radius: 14px;
+  display: flex;
+  gap: 12px;
+  margin-bottom: 25px;
+  border: 1px solid #e5e7eb;
+}
+
+.todo-form input {
+  flex: 1;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  padding: 13px 15px;
+  font-size: 15px;
+  outline: none;
+}
+
+.todo-form input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.add-button {
+  border: none;
+  background: #4f46e5;
+  color: white;
+  padding: 0 22px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.add-button:hover {
+  background: #4338ca;
+}
+
+/* -------------------- */
+/* TASK CONTAINER */
+/* -------------------- */
+
+.task-container {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* -------------------- */
+/* TABLE HEADER */
+/* -------------------- */
+
+.task-header {
+  display: grid;
+  grid-template-columns: 80px 1fr 150px 180px;
+  align-items: center;
+
+  padding: 16px 24px;
+
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* -------------------- */
+/* TASK ROW */
+/* -------------------- */
+
+.task-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 150px 180px;
+  align-items: center;
+
+  min-height: 75px;
+  padding: 14px 24px;
+
+  border-bottom: 1px solid #f0f0f0;
+
+  transition: background 0.2s;
+}
+
+.task-row:last-child {
+  border-bottom: none;
+}
+
+.task-row:hover {
+  background: #fafafa;
+}
+
+/* -------------------- */
+/* TASK NUMBER */
+/* -------------------- */
+
+.task-number {
+  color: #9ca3af;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* -------------------- */
+/* TASK NAME */
+/* -------------------- */
+
+.task-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.edit-input {
+  width: 90%;
+  padding: 9px 11px;
+  border: 1px solid #6366f1;
+  border-radius: 7px;
+  outline: none;
+  font-size: 14px;
+}
+
+/* -------------------- */
+/* STATUS */
+/* -------------------- */
+
+.status-badge {
+  display: inline-block;
+
+  background: #fff7ed;
+  color: #c2410c;
+
+  padding: 6px 11px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* -------------------- */
+/* ACTIONS */
+/* -------------------- */
+
+.task-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.task-actions button {
+  border: none;
+  border-radius: 7px;
+  padding: 8px 13px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Edit */
+
+.edit-button {
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+.edit-button:hover {
+  background: #e0e7ff;
+}
+
+/* Delete */
+
+.delete-button {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.delete-button:hover {
+  background: #fee2e2;
+}
+
+/* Save */
+
+.save-button {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.save-button:hover {
+  background: #d1fae5;
+}
+
+/* Cancel */
+
+.cancel-button {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.cancel-button:hover {
+  background: #e5e7eb;
+}
+
+/* -------------------- */
+/* EMPTY STATE */
+/* -------------------- */
+
+.empty-state {
+  text-align: center;
+  padding: 70px 20px;
+}
+
+.empty-state h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+/* -------------------- */
+/* RESPONSIVE */
+/* -------------------- */
+
+@media (max-width: 750px) {
+
+  .header {
+    padding: 25px;
+  }
+
+  .dashboard {
+    margin-top: 25px;
+    padding: 0 15px;
+  }
+
+  .todo-form {
+    flex-direction: column;
+  }
+
+  .add-button {
+    padding: 12px;
+  }
+
+  .task-header {
+    display: none;
+  }
+
+  .task-row {
+    grid-template-columns: 45px 1fr;
+    gap: 10px;
+    padding: 18px;
+  }
+
+  .task-status {
+    grid-column: 2;
+  }
+
+  .task-actions {
+    grid-column: 2;
+  }
+}
