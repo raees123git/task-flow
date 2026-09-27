@@ -50,8 +50,7 @@ body {
   padding: 0 25px;
 }
 
-/* -------------------- */
-/* TODO FORM */
+
 /* -------------------- */
 
 .todo-form {
@@ -102,7 +101,7 @@ body {
   background: white;
   border: 1px solid #e5e7eb;
   border-radius: 14px;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 /* -------------------- */
@@ -123,6 +122,8 @@ body {
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
+  border-top-left-radius: 14px;  /* ADD THIS */
+  border-top-right-radius: 14px; /* ADD THIS */
 }
 
 /* -------------------- */
@@ -148,6 +149,12 @@ body {
 
 .task-row:hover {
   background: #fafafa;
+}
+
+.task-row:last-child {
+  border-bottom: none;
+  border-bottom-left-radius: 14px;  /* ADD THIS */
+  border-bottom-right-radius: 14px; /* ADD THIS */
 }
 
 /* -------------------- */
@@ -318,4 +325,74 @@ body {
   .task-actions {
     grid-column: 2;
   }
+}
+
+
+
+/* -------------------- */
+/* pop up when we click the status button */
+/* -------------------- */
+.task-status {
+  position: relative;
+}
+
+.status-badge {
+  border: none;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.status-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: 180px;
+  padding: 12px;
+
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+
+  z-index: 100;
+}
+
+.status-menu-title {
+  padding: 4px 8px 10px;
+  font-size: 13px;
+  color: #666;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 8px;
+}
+
+.status-option {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 9px 10px;
+
+  border: none;
+  background: transparent;
+
+  border-radius: 6px;
+
+  cursor: pointer;
+  text-align: left;
+  font-size: 14px;
+}
+
+.status-option:hover {
+  background: #f2f2f2;
+}
+
+.status-option.active {
+  background: #eeeeee;
+  font-weight: 600;
 }

@@ -1,17 +1,15 @@
 import { useState } from "react";
 
-function TodoForm({ setTasks }) {
+function TodoForm(props) {
   const [text, setText] = useState("");
-
-  function handleAdd() {
-    if (text.trim() === "") {
+  
+  function handleSubmit() {
+    if (!text.trim()) {
+      alert("Please enter a task first.");
       return;
     }
 
-    setTasks((previousTasks) => {
-      return [...previousTasks, text];
-    });
-
+    props.handleAddTask(text);
     setText("");
   }
 
@@ -24,12 +22,12 @@ function TodoForm({ setTasks }) {
         onChange={(event) => setText(event.target.value)}
         onKeyDown={(event) => {
           if (event.key === "Enter") {
-            handleAdd();
+            handleSubmit();
           }
         }}
       />
 
-      <button className="add-button" onClick={handleAdd}>
+      <button className="add-button" onClick={handleSubmit}>
         + Add Task
       </button>
     </div>
