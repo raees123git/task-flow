@@ -1,18 +1,22 @@
 const Todo = require("../models/Todo");
 
-const getAllTodos = async () => {
-    return await Todo.find();
+const getAllTodos = async (userId) => {
+    return await Todo.find({ user: userId });
 };
 
-const createTodo = async (task, status) => {
+const createTodo = async (task, status, userId) => {
     return await Todo.create({
         task: task,
-        status: status || "pending"
+        status: status || "pending",
+        user: userId
     });
 };
 
-const deleteTodo = async (todoId) => {
-    return await Todo.findByIdAndDelete(todoId);
+const deleteTodo = async (todoId, userId) => {
+    return await Todo.findOneAndDelete({
+        _id: todoId,
+        user: userId
+    });
 };
 
 const updateTodo = async (todoId, task, status) => {

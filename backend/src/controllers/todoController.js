@@ -3,7 +3,7 @@ const todoService = require("../services/todoService");
 
 const getAllTodos = async (req, res) => {
     try {
-        const todos = await todoService.getAllTodos();
+        const todos = await todoService.getAllTodos(req.userId);
 
         res.status(200).json(todos);
     } catch (error) {
@@ -19,7 +19,7 @@ const createTodo = async (req, res) => {
     try {
         const { task, status } = req.body;
 
-        const todo = await todoService.createTodo(task, status);
+        const todo = await todoService.createTodo(task, status, req.userId);
 
         res.status(201).json(todo);
     } catch (error) {
@@ -35,7 +35,7 @@ const deleteTodo = async (req, res) => {
     try {
         const todoId = req.params.id;
 
-        const todo = await todoService.deleteTodo(todoId);
+        const todo = await todoService.deleteTodo(todoId, req.userId);
 
         if (!todo) {
             return res.status(404).json({
