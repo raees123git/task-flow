@@ -19,7 +19,7 @@ const deleteTodo = async (todoId, userId) => {
     });
 };
 
-const updateTodo = async (todoId, task, status) => {
+const updateTodo = async (todoId, task, status, userId) => {
     const updateData = {};
 
     if (task !== undefined) {
@@ -31,7 +31,10 @@ const updateTodo = async (todoId, task, status) => {
     }
 
     return await Todo.findByIdAndUpdate(
-        todoId,
+        {
+        _id: todoId,
+        user: userId
+        },
         updateData,
         {
             new: true,

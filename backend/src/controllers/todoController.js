@@ -56,13 +56,13 @@ const deleteTodo = async (req, res) => {
 const updateTodo = async (req, res) => {
     try {
         const todoId = req.params.id;
-
         const { task, status } = req.body;
 
         const todo = await todoService.updateTodo(
             todoId,
             task,
-            status
+            status,
+            req.userId
         );
 
         if (!todo) {

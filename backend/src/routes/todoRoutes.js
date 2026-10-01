@@ -12,6 +12,6 @@ const router = express.Router();
 router.get("/", authMiddleware, getAllTodos);
 router.post("/", authMiddleware, createTodo);
 router.delete("/:id", authMiddleware, deleteTodo);
-router.patch("/:id", updateTodo);
+router.patch("/:id", authMiddleware, updateTodo);
 
 module.exports = router;
