@@ -1,67 +1,84 @@
-id = 0;
-const todos = [
-        {
-            id: id++,
-            task: "Learn Node.js",
-            status: "Pending"
-        },
-        {
-            id: id++,
-            task: "Learn Express",
-            status: "completed"
-        }
-    ];
-
-const getAllTodos = (req, res) => {
-    res.json(todos);
-};
+const todoService = require("../services/todoService");
 
 
-const createTodo = (req, res) => {
-    const { task, status } = req.body;
-    todos.push({ id: id++, task, status: status || "Pending" });
-    res.status(201).json({ id: id - 1, task, status });
-}
-    
+const getAllTodos = async (req, res) => {
+    try {
+        const todos = await todoService.getAllTodos(req.userId);
 
-const deleteTodo = (req, res) => {
-    const todoId = Number(req.params.id); 
-    const todoIndex = todos.findIndex((todo) => todo.id === todoId); 
-    if (todoIndex === -1) 
-        { return res.status(404).json({ message: "Todo not found" }); } 
-        // "return inside if is sayhing Send this response AND immediately exit this function. without it, the function would continue to execute and try to delete a todo that doesn't exist, which would cause an error also express will complain that we are sending 2 responses."
-    
-    todos.splice(todoIndex, 1); 
-    res.status(204).send(); };
-
-
-
-const updateTodo = (req, res) => {
-    const todoId = Number(req.params.id);
-
-    const { task, status } = req.body;
-
-    const todo = todos.find(
-        (todo) => todo.id === todoId
-    );
-
-    if (!todo) {
-        return res.status(404).json({
-            message: "Todo not found"
+        res.status(200).json(todos);
+    } catch (error) {
+        res.status(500).json({
+            message: "Failed to fetch todos",
+            error: error.message
         });
     }
-
-    if (task !== undefined) {
-        todo.task = task;
-    }
-
-    if (status !== undefined) {
-        todo.status = status;
-    }
-
-    res.status(200).json(todo);
 };
 
+
+const createTodo = async (req, res) => {
+    try {
+        const { task, status } = req.body;
+
+        const todo = await todoService.createTodo(task, status, req.userId);
+
+        res.status(201).json(todo);
+    } catch (error) {
+        res.status(500).json({
+            message: "Failed to create todo",
+            error: error.message
+        });
+    }
+};
+
+
+const deleteTodo = async (req, res) => {
+    try {
+        const todoId = req.params.id;
+
+        const todo = await todoService.deleteTodo(todoId, req.userId);
+
+        if (!todo) {
+            return res.status(404).json({
+                message: "Todo not found"
+            });
+        }
+
+        res.status(204).send();
+    } catch (error) {
+        res.status(500).json({
+            message: "Failed to delete todo",
+            error: error.message
+        });
+    }
+};
+
+
+const updateTodo = async (req, res) => {
+    try {
+        const todoId = req.params.id;
+        const { task, status } = req.body;
+
+        const todo = await todoService.updateTodo(
+            todoId,
+            task,
+            status,
+            req.userId
+        );
+
+        if (!todo) {
+            return res.status(404).json({
+                message: "Todo not found"
+            });
+        }
+
+        res.status(200).json(todo);
+    } catch (error) {
+        res.status(500).json({
+            message: "Failed to update todo",
+            error: error.message
+        });
+    }
+};
 
 
 module.exports = {

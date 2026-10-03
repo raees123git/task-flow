@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import TodoItem from "./TodoItem";
 
 function TodoList({tasks, loading, handleDeleteTask, handleEditTask, handleStatusChange}) {
@@ -23,11 +22,11 @@ function TodoList({tasks, loading, handleDeleteTask, handleEditTask, handleStatu
         tasks.map((task, index) => (
           console.log("Rendering task:", task.task), 
           <TodoItem
-            key={task.id} 
+            key={task._id} 
             index={index}
             task={task.task}
             status={task.status}
-            taskId={task.id}
+            taskId={task._id}
             handleEdit={handleEditTask}
             handleDelete={handleDeleteTask}
             handleStatusChange={handleStatusChange}
