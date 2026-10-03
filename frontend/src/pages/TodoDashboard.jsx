@@ -27,7 +27,7 @@ function TodoDashboard() {
       const response = await fetch("http://localhost:3000/todos",{
           method: "POST", 
           headers: { "Content-Type": "application/json" }, 
-          body: JSON.stringify({ task: newTaskText, status: "Pending" }) 
+          body: JSON.stringify({ task: newTaskText, status: "pending" }) 
         });
           if (!response.ok) { 
             throw new Error("Failed to create todo"); 
@@ -56,7 +56,7 @@ function TodoDashboard() {
       }
 
       setTasks((prev) =>
-        prev.filter((task) => task.id !== taskId)
+        prev.filter((task) => task._id !== taskId)
       );
 
     } catch (error) {
@@ -92,7 +92,7 @@ function TodoDashboard() {
 
     setTasks((prev) =>
       prev.map((task) =>
-        task.id === taskId ? updatedTask : task
+        task._id === taskId ? updatedTask : task
       )
     );
 
@@ -128,7 +128,7 @@ async function handleStatusChange(taskId, newStatus) {
 
     setTasks((prev) =>
       prev.map((task) =>
-        task.id === taskId ? updatedTask : task
+        task._id === taskId ? updatedTask : task
       )
     );
 

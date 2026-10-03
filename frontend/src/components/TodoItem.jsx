@@ -6,7 +6,7 @@ function TodoItem({ task, index, status, taskId, handleEdit, handleDelete, handl
   const [showStatusMenu, setShowStatusMenu] = useState(false); 
   const statusContainerRef = useRef(null);
 
-  const statusOptions = [ "Pending", "Completed", "Aborted" ];
+  const statusOptions = [ "pending", "completed", "aborted" ];
 
   // 2. Add an effect to listen for clicks outside the referenced element
   useEffect(() => {
@@ -26,8 +26,6 @@ function TodoItem({ task, index, status, taskId, handleEdit, handleDelete, handl
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showStatusMenu]);
-
-
 
 
   function handleSaveClick() {
