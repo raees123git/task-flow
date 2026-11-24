@@ -2,11 +2,19 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
+const createToken = (userId) => {
+  return jwt.sign(
+    { userId },
+    process.env.JWT_SECRET,
+    { expiresIn: "1d" }
+  );
+};
+
+
 const signup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // 1. Check if the user already exists
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
@@ -15,26 +23,29 @@ const signup = async (req, res) => {
       });
     }
 
-    // 2. Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // 3. Create the user
     const user = await User.create({
       name,
       email,
       password: hashedPassword,
     });
 
-    // 4. Send response
+    const token = createToken(user._id);
+
     res.status(201).json({
       message: "User created successfully",
+      token,
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
       },
     });
+
   } catch (error) {
+    console.error("Signup error:", error);
+
     res.status(500).json({
       message: "Something went wrong",
     });
@@ -46,7 +57,6 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // 1. Find user
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -55,7 +65,6 @@ const login = async (req, res) => {
       });
     }
 
-    // 2. Compare password
     const isPasswordCorrect = await bcrypt.compare(
       password,
       user.password
@@ -67,14 +76,8 @@ const login = async (req, res) => {
       });
     }
 
-    // 3. Create JWT
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
+    const token = createToken(user._id);
 
-    // 4. Send response
     res.status(200).json({
       message: "Login successful",
       token,
@@ -84,7 +87,10 @@ const login = async (req, res) => {
         email: user.email,
       },
     });
+
   } catch (error) {
+    console.error("Login error:", error);
+
     res.status(500).json({
       message: "Something went wrong",
     });

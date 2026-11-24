@@ -30,6 +30,10 @@ function TodoForm(props) {
       <button className="add-button" onClick={handleSubmit}>
         + Add Task
       </button>
+
+       <button className="logout-button" onClick={props.handleLogout}>
+        Logout
+      </button>
     </div>
   );
 }

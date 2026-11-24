@@ -93,6 +93,26 @@ body {
   background: #4338ca;
 }
 
+.logout-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.logout-button:hover {
+  background-color: #c82333;
+}
+
+.logout-button:active {
+  transform: scale(0.98);
+}
+
 /* -------------------- */
 /* TASK CONTAINER */
 /* -------------------- */

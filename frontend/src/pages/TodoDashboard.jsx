@@ -1,15 +1,27 @@
 import { useState, useEffect } from "react";
 import TodoForm from "../components/TodoForm";
 import TodoList from "../components/TodoList";
+import { useNavigate } from "react-router-dom";
 
 function TodoDashboard() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchTasks() {
       try {
-        const response = await fetch("http://localhost:3000/todos");
+        const response = await fetch("http://localhost:3000/todos", {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        console.log("response is: ",response);
+        if (!response.ok) {
+          throw new Error("Failed to fetch todos");
+        }
+
         const data = await response.json();
         console.log("Fetched tasks:", data);
         setTasks(data);
@@ -26,7 +38,9 @@ function TodoDashboard() {
     try { 
       const response = await fetch("http://localhost:3000/todos",{
           method: "POST", 
-          headers: { "Content-Type": "application/json" }, 
+          headers: { "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+           }, 
           body: JSON.stringify({ task: newTaskText, status: "pending" }) 
         });
           if (!response.ok) { 
@@ -47,7 +61,8 @@ function TodoDashboard() {
       const response = await fetch(
         `http://localhost:3000/todos/${taskId}`,
         {
-          method: "DELETE"
+          method: "DELETE",
+          headers: {Authorization: `Bearer ${token}`}
         }
       );
 
@@ -65,10 +80,6 @@ function TodoDashboard() {
     }
   }
 
-
-
-
-
   async function handleEditTask(taskId, newTaskText) {
   try {
     const response = await fetch(
@@ -76,7 +87,8 @@ function TodoDashboard() {
       {
         method: "PATCH",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
           task: newTaskText
@@ -110,7 +122,8 @@ async function handleStatusChange(taskId, newStatus) {
       {
         method: "PATCH",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+           Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
           status: newStatus
@@ -136,16 +149,17 @@ async function handleStatusChange(taskId, newStatus) {
     alert("Failed to update status. Please try again.");
     console.error("Error updating status:", error);
   }
-}
+  }
 
 
-
-
-
+  function handleLogout() {
+    localStorage.removeItem("token");
+    navigate("/login");
+  }
 
   return (
     <>
-      <TodoForm handleAddTask={handleAddTask} />
+      <TodoForm handleAddTask={handleAddTask} handleLogout={handleLogout}/>
       <TodoList tasks={tasks} loading={loading} handleDeleteTask={handleDeleteTask} handleEditTask={handleEditTask} handleStatusChange={handleStatusChange}/>
     </>
   );

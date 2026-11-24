@@ -1,6 +1,5 @@
 const todoService = require("../services/todoService");
 
-
 const getAllTodos = async (req, res) => {
     try {
         const todos = await todoService.getAllTodos(req.userId);
